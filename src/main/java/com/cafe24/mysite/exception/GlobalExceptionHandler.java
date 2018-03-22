@@ -22,6 +22,7 @@ public class GlobalExceptionHandler {
 		
 		request.setAttribute("errors", errors);
 		
+		e.printStackTrace();
 		// 2. 사과
 		request.getRequestDispatcher("/WEB-INF/views/error/error.jsp").forward(request, response);
 

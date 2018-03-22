@@ -20,13 +20,13 @@ public class GuestbookService {
 		return list;
 	}
 
-	public GuestBookVo getGusetBookByNo(int no) {
+	public GuestBookVo getGusetBookByNo(Long no) {
 		GuestBookVo vo = dao.getGusetBook(no);
 
 		return vo;
 	}
 
-	public void deleteGuestBook(int no) {
+	public void deleteGuestBook(Long no) {
 		dao.delete(no);
 	}
 

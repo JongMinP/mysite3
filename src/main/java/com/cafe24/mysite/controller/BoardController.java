@@ -2,7 +2,6 @@ package com.cafe24.mysite.controller;
 
 import java.util.List;
 
-import javax.naming.NameClassPair;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,9 +27,10 @@ public class BoardController {
 	//
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public String list(Model model) {
-		List<BoardVo> list = service.getListPage();
 
 		Pager pager = service.getPager();
+		List<BoardVo> list = service.getListPage(pager);
+
 
 		model.addAttribute("boards", list);
 		model.addAttribute("pager", pager);
@@ -115,7 +115,7 @@ public class BoardController {
 
 	//
 
-	@RequestMapping(value = "/search", method = RequestMethod.GET)
+	@RequestMapping(value = "/search", method = RequestMethod.POST)
 	public String search(@RequestParam("kwd") String kwd, Model model) {
 
 		List<BoardVo> list = service.searchList(kwd);

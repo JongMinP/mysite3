@@ -13,7 +13,9 @@ public class Pager {
 	private int currentPage;
 
 	private int totalCount;
-	
+
+	private String kd;
+
 	private int indexCount; // 앞 번호
 
 	public Pager() {
@@ -25,6 +27,14 @@ public class Pager {
 		this.next = false;
 		this.currentPage = 1;
 
+	}
+
+	public String getKd() {
+		return kd;
+	}
+
+	public void setKd(String kd) {
+		this.kd = kd;
 	}
 
 	public int getPage() {

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="comment">
+
+
+	<resultMap type="commentvo" id="cMap">
+		<id column="no" property="no" />
+		<result column="content" property="content" />
+		<result column="reg_date" property="regDate" />
+		<result column="board_no" property="boardNo" />
+		<association column="user_no" property="user" select="user.getByNo"
+			javaType="uservo" jdbcType="NUMERIC" />
+		
+	</resultMap>
+
+ 
+	<sql id="readComment">
+		select no, content, date_format(reg_date,'%Y-%m-%d') as regDate,
+		user_no , board_no as boardNo
+		from comment
+    </sql>
+
+	<select id="getList" parameterType="Long" resultMap="cMap">
+	
+		<include refid="readComment"/>
+		where board_no = #{_parameter }
+		order by no asc
+
+	</select>
+	
+	
+	<insert id="commentInsert" parameterType="commentvo" >
+		<![CDATA[
+		insert into comment
+		values(null,#{content},now(),#{user.no},#{boardNo})
+		
+		]]>
+	</insert>
+	
+	
+	
+	
+	<delete id="commentDelete" parameterType="Long">
+		<![CDATA[
+		delete from comment
+		where no = #{_parameter}
+		
+		]]>
+	</delete>
+	
+	<delete id="boardDelete" parameterType="Long">
+		<![CDATA[
+		delete from comment
+		where board_no = #{_parameter}
+		
+		]]>
+	</delete>
+</mapper>

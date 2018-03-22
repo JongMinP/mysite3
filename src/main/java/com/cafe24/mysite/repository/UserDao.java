@@ -1,162 +1,40 @@
 package com.cafe24.mysite.repository;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-
+import org.apache.ibatis.session.SqlSession;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.cafe24.mvc.util.AutoClose;
-import com.cafe24.mvc.util.ConnectionFactroy;
-import com.cafe24.mysite.exception.UserDaoException;
 import com.cafe24.mysite.vo.UserVo;
 
 @Repository
 public class UserDao {
 
-	public boolean update(UserVo vo) throws UserDaoException {
+	@Autowired
+	private SqlSession sqlSession;
 
-		boolean result = false;
-		Connection conn = null;
-		PreparedStatement pstmt = null;
-		StringBuilder sql = new StringBuilder();
-		try {
-			conn = ConnectionFactroy.getInstance().createConnection();
+	public boolean update(UserVo vo) {
 
-			sql.append(" update users ");
-			sql.append(" set name = ? , password = password(?), gender = ? ");
-			sql.append(" where no = ? ");
+		System.out.println(vo);
+		int count = sqlSession.update("user.update", vo);
 
-			pstmt = conn.prepareStatement(sql.toString());
-
-			pstmt.setString(1, vo.getName());
-			pstmt.setString(2, vo.getPassword());
-			pstmt.setString(3, vo.getGender());
-			pstmt.setLong(4, vo.getNo());
-
-			int count = pstmt.executeUpdate();
-
-			result = (count == 1);
-
-		} catch (SQLException e) {
-			throw new UserDaoException();
-		} finally {
-
-			AutoClose.closeResource(pstmt, conn);
-		}
-
-		return result;
+		return count == 1;
 
 	}
 
-	public UserVo getNo(Long no) throws UserDaoException {
-		UserVo result = null;
+	public UserVo getNo(Long no) {
 
-		Connection conn = null;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		StringBuilder sql = new StringBuilder();
-
-		try {
-			conn = ConnectionFactroy.getInstance().createConnection();
-
-			sql.append(" select no , name , gender ");
-			sql.append(" from users  ");
-			sql.append(" where no = ? ");
-
-			pstmt = conn.prepareStatement(sql.toString());
-
-			pstmt.setLong(1, no);
-
-			rs = pstmt.executeQuery();
-
-			if (rs.next()) {
-				result = new UserVo();
-				result.setNo(rs.getLong(1));
-				result.setName(rs.getString(2));
-				result.setGender(rs.getString(3));
-			}
-
-		} catch (SQLException e) {
-			throw new UserDaoException();
-		} finally {
-
-			AutoClose.closeResource(rs, pstmt, conn);
-		}
-
-		return result;
+		return sqlSession.selectOne("user.getByNo", no);
 	}
 
-	public UserVo get(String email, String password)  {
-		UserVo result = null;
+	public UserVo get(UserVo vo) {
 
-		Connection conn = null;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		StringBuilder sql = new StringBuilder();
-
-		try {
-			conn = ConnectionFactroy.getInstance().createConnection();
-
-			sql.append(" select no , name ");
-			sql.append(" from users  ");
-			sql.append(" where email=? and password =password(?) ");
-
-			pstmt = conn.prepareStatement(sql.toString());
-
-			pstmt.setString(1, email);
-			pstmt.setString(2, password);
-
-			rs = pstmt.executeQuery();
-
-			if (rs.next()) {
-				result = new UserVo();
-				result.setNo(rs.getLong(1));
-				result.setName(rs.getString(2));
-			}
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-
-			AutoClose.closeResource(rs, pstmt, conn);
-		}
-
-		return result;
+		return sqlSession.selectOne("user.getByEmailAndPassword", vo);
 	}
 
 	public boolean insert(UserVo vo) {
-		boolean result = false;
-		Connection conn = null;
-		PreparedStatement pstmt = null;
-		StringBuilder sql = new StringBuilder();
-		try {
-			conn = ConnectionFactroy.getInstance().createConnection();
+		int count = sqlSession.insert("user.insert", vo);
 
-			sql.append(" insert ");
-			sql.append(" into users ");
-			sql.append(" values(null,?,?, password(?),?,now() ) ");
-
-			pstmt = conn.prepareStatement(sql.toString());
-
-			pstmt.setString(1, vo.getName());
-			pstmt.setString(2, vo.getEmail());
-			pstmt.setString(3, vo.getPassword());
-			pstmt.setString(4, vo.getGender());
-
-			int count = pstmt.executeUpdate();
-
-			result = (count == 1);
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-
-			AutoClose.closeResource(pstmt, conn);
-		}
-
-		return result;
+		return count == 1;
 	}
 
 }

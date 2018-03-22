@@ -19,9 +19,8 @@ public class BoardService {
 	@Autowired
 	private CommentDao cDao;
 
-	public List<BoardVo> getListPage() {
-		List<BoardVo> list = dao.getListPage(0, 10);
-
+	public List<BoardVo> getListPage(Pager pager) {
+		List<BoardVo> list = dao.getListPage(pager);
 		return list;
 	}
 

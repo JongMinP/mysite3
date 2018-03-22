@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="board">
+
+
+	<resultMap type="boardvo" id="bMap">
+		<id column="no" property="no" />
+		<result column="title" property="title" />
+		<result column="content" property="content" />
+		<result column="group_no" property="groupNo" />
+		<result column="order_no" property="orderNo" />
+		<result column="depth" property="depth" />
+		<result column="count" property="count" />
+		<result column="file" property="file" />
+		<result column="reg_date" property="regDate" />
+		<association column="user_no" property="user" select="user.getByNo"
+			javaType="uservo" jdbcType="NUMERIC" />
+		<collection property="comments" column="no" ofType="commentvo"
+			select="comment.getList" javaType="java.util.ArrayList" jdbcType="NUMERIC" />
+	</resultMap>
+
+
+	<select id="getListSearch" parameterType="pager" resultMap="bMap">
+		<include refid="readBoard" />
+		and (b.title LIKE #{kd} or b.content LIKE #{kd})
+		order by b.group_no desc , b.order_no asc
+		LIMIT #{pageStart} , #{pageNum}
+
+	</select>
+
+
+	<insert id="insertBoard" parameterType="boardvo">
+		<![CDATA[
+			insert into board
+			values (null,#{title},#{content},#{groupNo},#{orderNo},#{depth},
+			#{count},#{file}, now(),#{user.no})
+		
+		]]>
+	</insert>
+
+	<select id="getTotalCount" resultType="int">
+		<![CDATA[
+			select count(*)
+			from board
+		]]>
+	</select>
+
+	<select id="getTotalCountKeyword" parameterType="String" resultType="int">
+		<![CDATA[
+			select count(*)
+			from board
+			where title LIKE #{_parameter} or content LIKE #{_parameter}
+		]]>
+	</select>
+
+
+
+
+	<select id="groupNoSearch">
+		<![CDATA[
+			select ifnull(max(group_no), 0) as group_no  
+			from board
+		]]>
+	</select>
+
+
+	<sql id="readBoard">
+	<![CDATA[
+		select b.no,title,content,group_no ,order_no ,depth,count,file, 
+		date_format(b.reg_date,'%Y-%m-%d') as regDate , user_no , u.name
+		from board b , users u
+		where b.user_no = u.no
+	]]>
+	</sql>
+
+
+	<select id="getListPage" parameterType="pager" resultMap="bMap">
+
+		<include refid="readBoard" />
+	<![CDATA[
+		order by b.group_no desc , b.order_no asc
+	    LIMIT ${pageStart-1} , #{pageNum} 
+	]]>
+	</select>
+
+
+	<insert id="replyInsert" parameterType="boardvo">
+		<![CDATA[
+			insert into board
+			values(null,#{title},#{content},#{groupNo},#{orderNo},#{depth},0,now(),user_no)
+		]]>
+	</insert>
+
+	<delete id="delete" parameterType="Long">
+		<![CDATA[
+			delete from board
+			where no = #{_parameter}
+		]]>
+	</delete>
+
+	<delete id="groupDelete" parameterType="boardvo">
+		<![CDATA[
+			delete from board
+			where group_no = #{groupNo} and order_no > #{orderNo}
+		]]>
+	</delete>
+
+
+	<select id="getBoard" parameterType="Long" resultMap="bMap">
+		<include refid="readBoard" />
+		<![CDATA[
+		and b.no = #{_parameter}
+		order by b.group_no desc , b.order_no asc
+		]]>
+	</select>
+
+	<update id="updateOrder" parameterType="boardvo">
+		<![CDATA[
+		update board
+		set order_no = ${groupNo + 1}
+		where group_no = #{groupNo} and order_no >= #{orderNo}
+		
+		]]>
+	</update>
+
+
+	<update id="update" parameterType="boardvo">
+	<![CDATA[
+		update board
+		set count = #{count}, title =#{title}, content = #{content}
+		where no = #{no}	
+	]]>
+	</update>
+
+
+
+</mapper>

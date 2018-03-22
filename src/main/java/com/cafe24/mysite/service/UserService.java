@@ -12,12 +12,17 @@ public class UserService {
 	@Autowired
 	private UserDao userDao;
 
+	public UserVo getNo(Long no) {
+
+		return userDao.getNo(no);
+	}
+
 	public void join(UserVo vo) {
 		userDao.insert(vo);
 	}
 
 	public UserVo getUser(UserVo vo) {
-		return userDao.get(vo.getEmail(), vo.getPassword());
+		return userDao.get(vo);
 	}
 
 	public void userModify(UserVo vo) {

@@ -37,7 +37,7 @@ public class GuestbookController {
 	}
 
 	@RequestMapping(value = "/delete", method = RequestMethod.POST)
-	public String delete(@RequestParam("no") int no, @RequestParam("password") String password) {
+	public String delete(@RequestParam("no") Long no, @RequestParam("password") String password) {
 
 		GuestBookVo vo = service.getGusetBookByNo(no);
 		if (password.equals(vo.getPassword())) {
