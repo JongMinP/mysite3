@@ -21,50 +21,6 @@
 	</resultMap>
 
 
-	<select id="getListSearch" parameterType="pager" resultMap="bMap">
-		<include refid="readBoard" />
-		and (b.title LIKE #{kd} or b.content LIKE #{kd})
-		order by b.group_no desc , b.order_no asc
-		LIMIT #{pageStart} , #{pageNum}
-
-	</select>
-
-
-	<insert id="insertBoard" parameterType="boardvo">
-		<![CDATA[
-			insert into board
-			values (null,#{title},#{content},#{groupNo},#{orderNo},#{depth},
-			#{count},#{file}, now(),#{user.no})
-		
-		]]>
-	</insert>
-
-	<select id="getTotalCount" resultType="int">
-		<![CDATA[
-			select count(*)
-			from board
-		]]>
-	</select>
-
-	<select id="getTotalCountKeyword" parameterType="String" resultType="int">
-		<![CDATA[
-			select count(*)
-			from board
-			where title LIKE #{_parameter} or content LIKE #{_parameter}
-		]]>
-	</select>
-
-
-
-
-	<select id="groupNoSearch">
-		<![CDATA[
-			select ifnull(max(group_no), 0) as group_no  
-			from board
-		]]>
-	</select>
-
-
 	<sql id="readBoard">
 	<![CDATA[
 		select b.no,title,content,group_no ,order_no ,depth,count,file, 
@@ -74,6 +30,14 @@
 	]]>
 	</sql>
 
+	<select id="getListSearch" parameterType="hashmap" resultMap="bMap">
+		<include refid="readBoard" />
+		and (b.title LIKE CONCAT('%',#{kwd} ,'%') or b.content LIKE
+		CONCAT('%',#{kwd} ,'%'))
+		order by b.group_no desc , b.order_no asc
+		LIMIT #{pager.pageStart} , #{pager.pageNum}
+
+	</select>
 
 	<select id="getListPage" parameterType="pager" resultMap="bMap">
 
@@ -85,12 +49,37 @@
 	</select>
 
 
-	<insert id="replyInsert" parameterType="boardvo">
+	<select id="getTotalCountKeyword" resultType="int">
+		<![CDATA[
+			select count(*)
+			from board
+		]]>
+		<if test='_parameter != null'>
+			<![CDATA[
+				where title LIKE CONCAT('%',#{_parameter } ,'%')  or content LIKE CONCAT('%',#{_parameter } ,'%')
+			]]>
+		</if>
+	</select>
+
+
+	<select id="groupNoSearch" resultType="int">
+		<![CDATA[
+			select ifnull(max(group_no), 0) as groupNo  
+			from board
+		]]>
+	</select>
+	
+	
+	<insert id="insertBoard" parameterType="boardvo">
 		<![CDATA[
 			insert into board
-			values(null,#{title},#{content},#{groupNo},#{orderNo},#{depth},0,now(),user_no)
+			values (null,#{title},#{content},#{groupNo},#{orderNo},#{depth},
+			#{count},#{file}, now(),#{user.no})
+		
 		]]>
 	</insert>
+
+
 
 	<delete id="delete" parameterType="Long">
 		<![CDATA[
@@ -102,7 +91,7 @@
 	<delete id="groupDelete" parameterType="boardvo">
 		<![CDATA[
 			delete from board
-			where group_no = #{groupNo} and order_no > #{orderNo}
+			where group_no = #{groupNo} and order_no >= #{orderNo}
 		]]>
 	</delete>
 
@@ -115,7 +104,7 @@
 		]]>
 	</select>
 
-	<update id="updateOrder" parameterType="boardvo">
+	<update id="updateOrder" parameterType="hashmap">
 		<![CDATA[
 		update board
 		set order_no = ${groupNo + 1}

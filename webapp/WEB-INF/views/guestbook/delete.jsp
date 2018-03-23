@@ -7,7 +7,8 @@
 <head>
 <title>mysite</title>
 <meta http-equiv="content-type" content="text/html; charset=utf-8">
-<link href="${pageContext.servletContext.contextPath}/assets/css/guestbook.css" rel="stylesheet"
+<c:set var="ctx" value="${pageContext.servletContext.contextPath}" />
+<link href="${ctx}/assets/css/guestbook.css" rel="stylesheet"
 	type="text/css">
 </head>
 <body>
@@ -16,13 +17,13 @@
 		<c:import url="/WEB-INF/views/includes/header.jsp" />
 		<div id="content">
 			<div id="guestbook" class="delete-form">
-				<form method="post" action="${pageContext.servletContext.contextPath}/guestbook/delete">
+				<form method="post" action="${ctx}/guestbook/delete">
 					<input type="hidden" name="a" value="delete"> <input
 						type='hidden' name="no" value="${param.no}">
 					<label>비밀번호</label> <input type="password" name="password">
 					<input type="submit" value="확인">
 				</form>
-				<a href="${pageContext.servletContext.contextPath}/guestbook">방명록 리스트</a>
+				<a href="${ctx}/guestbook">방명록 리스트</a>
 			</div>
 		</div>
 		<c:import url="/WEB-INF/views/includes/navigation.jsp">

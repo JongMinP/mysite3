@@ -3,13 +3,14 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+<c:set var="ctx" value="${pageContext.servletContext.contextPath}" />
 <!DOCTYPE html>
 <html>
 <head>
 <title>mysite</title>
 <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <link
-	href="${pageContext.servletContext.contextPath}/assets/css/board.css"
+	href="${ctx}/assets/css/board.css"
 	rel="stylesheet" type="text/css">
 </head>
 <body>
@@ -18,7 +19,7 @@
 		<div id="content">
 			<div id="board">
 				<form id="search_form"
-					action="${pageContext.servletContext.contextPath}/board/search"
+					action="${ctx}/board/search"
 					method="post">
 					<input type="hidden" name="a" value="search" /> <input type="text"
 						id="kwd" name="kwd" value=""> <input type="submit"
@@ -43,16 +44,16 @@
 							<td style="text-align:left; padding-left:${20*board.depth}px">
 								<c:if test="${board.depth > 0 }">
 									<img
-										src="${pageContext.servletContext.contextPath}/assets/images/reply.png" />
+										src="${ctx}/assets/images/reply.png" />
 								</c:if> <a
-								href="${pageContext.servletContext.contextPath}/board/view?no=${board.no }">${board.title}</a>
+								href="${ctx}/board/view?no=${board.no }">${board.title}</a>
 							</td>
 							<td>${board.user.name }</td>
 							<td>${board.count }</td>
 							<td>${board.regDate }</td>
 							<td><c:if test="${board.user.no eq authUser.no }">
 									<a
-										href="${pageContext.servletContext.contextPath}/board/delete?no=${board.no }&groupNo=${board.groupNo}&orderNo=${board.orderNo}"
+										href="${ctx}/board/delete?no=${board.no }"
 										class="del">삭제</a>
 								</c:if></td>
 						</tr>
@@ -65,7 +66,7 @@
 						<c:choose>
 							<c:when test="${pager.prev }">
 								<li style="color: black;"><a
-									href="${pageContext.servletContext.contextPath}/board/arrow?page=${pager.page - 1 }&indexCount=${pager.indexCount + 5*10}&kwd=${kwd}">◀</a></li>
+									href="${ctx}/board/arrow?page=${pager.page - 1 }&indexCount=${pager.indexCount + 5*10}&kwd=${kwd}">◀</a></li>
 							</c:when>
 							<c:otherwise>
 								<li style="color: #EAEAEA;">◀</li>
@@ -79,12 +80,12 @@
 							<c:choose>
 								<c:when test="${pager.currentPage eq i+1 }">
 									<li class="selected"><a style="color: red;"
-										href="${pageContext.servletContext.contextPath}/board/pager?pageStart=${10 *i}
+										href="${ctx}/board/pager?pageStart=${10 *i}
 							&currentPage=${i+1}&page=${pager.page}&kwd=${kwd}&totalCount=${pager.totalCount}&indexCount=${pager.totalCount - 10*i}">${i +1 }</a></li>
 								</c:when>
 								<c:otherwise>
 									<li><a
-										href="${pageContext.servletContext.contextPath}/board/pager?pageStart=${10 * i }&currentPage=${i+1}&page=${pager.page}
+										href="${ctx}/board/pager?pageStart=${10 * i }&currentPage=${i+1}&page=${pager.page}
 							&kwd=${kwd}&totalCount=${pager.totalCount}&indexCount=${pager.totalCount - 10*i}">${i+1}</a></li>
 								</c:otherwise>
 							</c:choose>
@@ -100,7 +101,7 @@
 						<c:choose>
 							<c:when test="${pager.next }">
 								<li style="color: black;"><a
-									href="${pageContext.servletContext.contextPath}/board/arrow?page=${pager.page + 1 }&indexCount=${pager.totalCount - 5*10}&kwd=${kwd}">▶</a></li>
+									href="${ctx}/board/arrow?page=${pager.page + 1 }&indexCount=${pager.totalCount - 5*10}&kwd=${kwd}">▶</a></li>
 							</c:when>
 							<c:otherwise>
 								<li style="color: #EAEAEA;">▶</li>
@@ -110,7 +111,7 @@
 				</div>
 				<div class="bottom">
 					<c:if test="${not empty authUser }">
-						<a href="${pageContext.servletContext.contextPath}/board/write"
+						<a href="${ctx}/board/write"
 							id="new-book">글쓰기</a>
 					</c:if>
 				</div>

@@ -16,6 +16,8 @@ public class BoardService {
 	@Autowired
 	private BoardDao dao;
 
+	private static final int PAGE_COUNT = 10;
+
 	@Autowired
 	private CommentDao cDao;
 
@@ -36,35 +38,31 @@ public class BoardService {
 	public List<BoardVo> searchList(String kwd) {
 
 		Pager pager = new Pager();
-		List<BoardVo> list = dao.getListSearch(kwd, pager.getPageStart() - 1, 10);
+		List<BoardVo> list = dao.getListSearch(kwd, pager.getPageStart() - 1, PAGE_COUNT);
 
 		return list;
 	}
-	
-	
-	public List<BoardVo> pagerList(String kwd,Pager pager) {
 
-		List<BoardVo> list = dao.getListSearch(kwd, pager.getPageStart(), 10);
+	public List<BoardVo> pagerList(String kwd, Pager pager) {
 
-		return list;
-	}
-	
-	
-	public List<BoardVo> arrowList(String kwd,Pager pager) {
-
-		List<BoardVo> list = dao.getListSearch(kwd, pager.getPageStart() * 10 - 10, 10);
+		List<BoardVo> list = dao.getListSearch(kwd, pager.getPageStart(), PAGE_COUNT);
 
 		return list;
 	}
-	
-	
+
+	public List<BoardVo> arrowList(String kwd, Pager pager) {
+
+		List<BoardVo> list = dao.getListSearch(kwd, (pager.getPageStart() - 1) * PAGE_COUNT, PAGE_COUNT);
+
+		return list;
+	}
+
 	public int getTotalCount() {
 
 		return dao.getTotalCount();
 	}
-	
 
-	public int searchTotalCount(String kwd) {
+	public int getTotalCount(String kwd) {
 
 		return dao.getTotalCount(kwd);
 	}
@@ -87,6 +85,10 @@ public class BoardService {
 
 	public void insert(BoardVo vo) {
 
+		vo.setOrderNo((long) 1);
+		vo.setDepth((long) 0);
+		vo.setCount((long) 0);
+
 		dao.insert(vo);
 	}
 
@@ -97,20 +99,18 @@ public class BoardService {
 		bvo.setGroupNo(vo.getGroupNo());
 		bvo.setOrderNo(vo.getOrderNo() + 1);
 		bvo.setDepth(vo.getDepth() + 1);
-
+		bvo.setCount(0L);
 		dao.updateOrder(vo.getGroupNo(), vo.getOrderNo() + 1);
 
-		dao.replyWrite(bvo);
+		dao.insert(bvo);
 
 	}
 
-	public void remove(BoardVo vo) {
+	public void remove(Long no) {
 
-		cDao.boardDelete(vo.getNo());
+		cDao.boardDelete(no); // 보드에 해달 되는 댓글 지우고
 
-		dao.groupDelete(vo.getGroupNo(), vo.getOrderNo());
-
-		dao.delete(vo.getNo());
+		dao.delete(no); // 보드 지우기
 
 	}
 

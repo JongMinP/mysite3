@@ -24,13 +24,11 @@ public class BoardController {
 	@Autowired
 	private BoardService service;
 
-	//
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public String list(Model model) {
 
 		Pager pager = service.getPager();
 		List<BoardVo> list = service.getListPage(pager);
-
 
 		model.addAttribute("boards", list);
 		model.addAttribute("pager", pager);
@@ -56,8 +54,6 @@ public class BoardController {
 		return "redirect:/board/view?no=" + vo.getNo();
 	}
 
-	//
-
 	@RequestMapping(value = "/write", method = RequestMethod.GET)
 	public String write() {
 
@@ -74,8 +70,6 @@ public class BoardController {
 
 		return "redirect:/board/list";
 	}
-
-	//
 
 	@RequestMapping(value = "/reply", method = RequestMethod.GET)
 	public String reply(@RequestParam("no") int no, Model model) {
@@ -94,11 +88,10 @@ public class BoardController {
 		return "redirect:/board/list";
 	}
 
-	//
 	@RequestMapping(value = "/delete", method = RequestMethod.GET)
-	public String delete(@ModelAttribute BoardVo vo) {
+	public String delete(@RequestParam("no") Long no) {
 
-		service.remove(vo);
+		service.remove(no);
 
 		return "redirect:/board/list";
 	}
@@ -113,16 +106,14 @@ public class BoardController {
 		return "board/view";
 	}
 
-	//
-
 	@RequestMapping(value = "/search", method = RequestMethod.POST)
-	public String search(@RequestParam("kwd") String kwd, Model model) {
+	public String search(@RequestParam(value = "kwd", required = true, defaultValue = "") String kwd, Model model) {
 
 		List<BoardVo> list = service.searchList(kwd);
 
 		Pager pager = new Pager();
-		pager.setTotalCount(service.searchTotalCount(kwd));
-		pager.setIndexCount(service.searchTotalCount(kwd));
+		pager.setTotalCount(service.getTotalCount(kwd));
+		pager.setIndexCount(service.getTotalCount(kwd));
 
 		model.addAttribute("boards", list);
 		model.addAttribute("kwd", kwd);
@@ -132,7 +123,8 @@ public class BoardController {
 	}
 
 	@RequestMapping(value = "/pager", method = RequestMethod.GET)
-	public String pager(@ModelAttribute Pager pager, @RequestParam("kwd") String kwd, Model model) {
+	public String pager(@ModelAttribute Pager pager,
+			@RequestParam(value = "kwd", required = true, defaultValue = "") String kwd, Model model) {
 
 		if (kwd == null) {
 			kwd = "";
@@ -153,7 +145,8 @@ public class BoardController {
 	}
 
 	@RequestMapping(value = "/arrow", method = RequestMethod.GET)
-	public String arrow(@ModelAttribute Pager pager, @RequestParam("kwd") String kwd, Model model) {
+	public String arrow(@ModelAttribute Pager pager,
+			@RequestParam(value = "kwd", required = true, defaultValue = "") String kwd, Model model) {
 
 		if (kwd == null) {
 			kwd = "";

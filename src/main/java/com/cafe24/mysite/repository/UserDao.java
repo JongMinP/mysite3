@@ -20,6 +20,11 @@ public class UserDao {
 		return count == 1;
 
 	}
+	
+	public UserVo getEmail(String email) {
+
+		return sqlSession.selectOne("user.getByEmail", email);
+	}
 
 	public UserVo getNo(Long no) {
 

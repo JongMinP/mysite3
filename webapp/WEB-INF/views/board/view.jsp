@@ -3,6 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+<c:set var="ctx" value="${pageContext.servletContext.contextPath}" />
 <!DOCTYPE html>
 <html>
 <head>
@@ -12,7 +13,7 @@
 <title>mysite</title>
 <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <link
-	href="${pageContext.servletContext.contextPath}/assets/css/board.css"
+	href="${ctx}/assets/css/board.css"
 	rel="stylesheet" type="text/css">
 </head>
 <body>
@@ -37,21 +38,21 @@
 					</tr>
 				</table>
 				<div class="bottom">
-					<a href="${pageContext.servletContext.contextPath}/board/list">글목록</a>
+					<a href="${ctx}/board/list">글목록</a>
 
 					<c:if test="${board.user.no eq authUser.no }">
 						<a
-							href="${pageContext.servletContext.contextPath}/board/modify?no=${board.no }">글수정</a>
+							href="${ctx}/board/modify?no=${board.no }">글수정</a>
 					</c:if>
 					<c:if test="${not empty authUser }">
 						<a
-							href="${pageContext.servletContext.contextPath}/board/reply?no=${board.no }">답글</a>
+							href="${ctx}/board/reply?no=${board.no }">답글</a>
 					</c:if>
 				</div>
 			</div>
 			<div id="board" class="board-form">
 				<form class="board-form" method="post"
-					action="${pageContext.servletContext.contextPath}/comment/insert">
+					action="${ctx}/comment/insert">
 					<input type="hidden" name="a" value="comment"> <input
 						type="hidden" name="boardNo" value="${board.no }" />
 					<table class="tbl-ex">
@@ -64,7 +65,7 @@
 								<td>${fn: replace(comment.content, newLine,"<br>") }</td>
 								<td style="text-align: right;">${comment.regDate }</td>
 								<c:if test="${comment.user.no eq authUser.no }">
-									<td><a href="${pageContext.servletContext.contextPath}/comment/delete?no=${comment.no }&boardNo=${board.no}"
+									<td><a href="${ctx}/comment/delete?no=${comment.no }&boardNo=${board.no}"
 										class="del">삭제</a></td>
 								</c:if>
 

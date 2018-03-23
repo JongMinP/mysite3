@@ -2,21 +2,19 @@ package com.cafe24.mysite.vo;
 
 public class Pager {
 
-	private int page; // 페이지 개수
-	private int pageNum; // 몇 개씩
+	private int page; // 몇 번째 페이지 뷰 (1페이지가 1~5번 페이지 까지)
+	private int pageNum; // 몇 개씩 페이지 나눌지
+
 	private int pageStart; // 시작
 	private int pageEnd; // 끝
 
-	private boolean prev;
-	private boolean next;
+	private boolean prev; // 왼쪽 화살표 
+	private boolean next; // 오른쪽 화살표
 
-	private int currentPage;
+	private int currentPage; // 현재 페이지
 
-	private int totalCount;
-
-	private String kd;
-
-	private int indexCount; // 앞 번호
+	private int totalCount; // 총 게시글 수
+	private int indexCount; // 게시글의 숫자
 
 	public Pager() {
 		this.page = 1;
@@ -26,15 +24,6 @@ public class Pager {
 		this.prev = false;
 		this.next = false;
 		this.currentPage = 1;
-
-	}
-
-	public String getKd() {
-		return kd;
-	}
-
-	public void setKd(String kd) {
-		this.kd = kd;
 	}
 
 	public int getPage() {

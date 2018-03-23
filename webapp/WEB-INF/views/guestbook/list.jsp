@@ -2,6 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+<c:set var="ctx" value="${pageContext.servletContext.contextPath}" />
 <!doctype html>
 <html>
 <head>
@@ -11,7 +12,7 @@
 %>
 <title>mysite</title>
 <meta http-equiv="content-type" content="text/html; charset=utf-8">
-<link href="${pageContext.servletContext.contextPath}/assets/css/guestbook.css" rel="stylesheet"
+<link href="${ctx}/assets/css/guestbook.css" rel="stylesheet"
 	type="text/css">
 </head>
 <body>
@@ -19,7 +20,7 @@
 		<c:import url="/WEB-INF/views/includes/header.jsp"/>
 		<div id="content">
 			<div id="guestbook">
-				<form action="${pageContext.servletContext.contextPath}/guestbook/add" method="post">
+				<form action="${ctx}/guestbook/add" method="post">
 
 					<table>
 						<tr>
@@ -47,7 +48,7 @@
 									<td>${vo.name }</td>
 									<td>${vo.dateTime }</td>
 									<td><a
-										href="${pageContext.servletContext.contextPath}/guestbook/delete?no=${vo.no }">삭제</a></td>
+										href="${ctx}/guestbook/delete?no=${vo.no }">삭제</a></td>
 								</tr>
 								<tr>
 									<td colspan=4>

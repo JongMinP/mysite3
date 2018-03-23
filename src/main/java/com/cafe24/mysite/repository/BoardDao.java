@@ -1,21 +1,15 @@
 package com.cafe24.mysite.repository;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.cafe24.mvc.util.AutoClose;
-import com.cafe24.mvc.util.ConnectionFactroy;
 import com.cafe24.mysite.vo.BoardVo;
 import com.cafe24.mysite.vo.Pager;
-import com.cafe24.mysite.vo.UserVo;
 
 @Repository
 public class BoardDao {
@@ -25,13 +19,12 @@ public class BoardDao {
 
 	public int getTotalCount() {
 
-		return sqlSession.selectOne("board.getTotalCount");
+		return sqlSession.selectOne("board.getTotalCountKeyword");
 	}
 
 	public int getTotalCount(String kwd) {
-		String kd = "%" + kwd + "%";
 
-		return sqlSession.selectOne("board.getTotalCountKeyword", kd);
+		return sqlSession.selectOne("board.getTotalCountKeyword", kwd);
 	}
 
 	public List<BoardVo> getListPage(Pager pager) {
@@ -40,16 +33,21 @@ public class BoardDao {
 	}
 
 	public List<BoardVo> getListSearch(String kwd, int startPage, int pageNum) {
+
+		HashMap<String, Object> map = new HashMap<>();
+
 		Pager pager = new Pager();
-		
 		pager.setPageStart(startPage);
 		pager.setPageNum(pageNum);
-		pager.setKd("%" + kwd + "%");
-		
-		return sqlSession.selectList("board.getListSearch",pager);
+
+		map.put("kwd", kwd);
+		map.put("pager", pager);
+
+		return sqlSession.selectList("board.getListSearch", map);
 	}
 
 	public int groupNoSearch() {
+
 		int count = sqlSession.selectOne("board.groupNoSearch");
 
 		return count + 1;
@@ -58,16 +56,10 @@ public class BoardDao {
 
 	public boolean insert(BoardVo vo) {
 
-		vo.setGroupNo((long) groupNoSearch());
-		vo.setOrderNo((long) 1);
-		vo.setDepth((long) 0);
-		vo.setCount((long) 0);
-		int count = sqlSession.insert("board.insertBoard", vo);
-		return count == 1;
-	}
+		if (vo.getGroupNo() == null)
+			vo.setGroupNo((long) groupNoSearch());
 
-	public boolean replyWrite(BoardVo vo) {
-		int count = sqlSession.insert("board.replyInsert", vo);
+		int count = sqlSession.insert("board.insertBoard", vo);
 
 		return count == 1;
 	}
@@ -79,38 +71,27 @@ public class BoardDao {
 
 	}
 
-	public boolean groupDelete(Long groupNo, Long orderNo) {
-
-		BoardVo vo = new BoardVo();
-		vo.setGroupNo(groupNo);
-		vo.setOrderNo(orderNo);
-		int count = sqlSession.delete("board.groupDelete", vo);
-
-		return count == 1;
-
-	}
-
 	public BoardVo getBoard(Long no) {
 
-		
-		return sqlSession.selectOne("board.getBoard",no);
+		return sqlSession.selectOne("board.getBoard", no);
 	}
 
 	public boolean updateOrder(Long groupNo, Long orderNo) {
-		BoardVo vo = new BoardVo();
-		vo.setGroupNo(groupNo);
-		vo.setOrderNo(orderNo);
-		
-		int count = sqlSession.update("board.updateOrder",vo);
-		
+
+		Map<String, Object> map = new HashMap<>();
+
+		map.put("groupNo", groupNo);
+		map.put("orderNo", orderNo);
+
+		int count = sqlSession.update("board.updateOrder", map);
 
 		return count == 1;
 
 	}
 
 	public boolean update(BoardVo vo) {
-		int count = sqlSession.update("board.update",vo);
-		
+		int count = sqlSession.update("board.update", vo);
+
 		return count == 1;
 
 	}
