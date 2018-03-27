@@ -21,7 +21,10 @@ public class UserController {
 	@RequestMapping("/checkemail")
 	public JSONResult checkMail(@RequestParam(value = "email", required = true, defaultValue = "") String email) {
 		
+		System.out.println(email);
 		UserVo vo = userDao.getEmail(email);
+		
+		System.out.println(vo);
 
 		return JSONResult.success(vo == null ? "not exists" : "exist");
 	}

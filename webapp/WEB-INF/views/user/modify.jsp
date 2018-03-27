@@ -22,8 +22,10 @@
 				<form id="join-form" name="joinForm" method="post"
 					action="${ctx}/user/modify"> <label
 						class="block-label" for="name">이름</label> <input id="name"
-						name="name" type="text" value="${user.name}"> <input
-						type="button" value="id 중복체크"> <label class="block-label">패스워드</label>
+						name="name" type="text" value="${user.name}"> 
+					
+<!-- 					<label class="block-label" for="email">이메일</label> -->
+					 <label class="block-label">패스워드</label>
 					<input name="password" type="password" value="">
 
 					<fieldset>

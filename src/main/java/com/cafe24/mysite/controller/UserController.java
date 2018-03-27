@@ -2,6 +2,8 @@ package com.cafe24.mysite.controller;
 
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,10 +13,16 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.cafe24.mysite.service.UserService;
 import com.cafe24.mysite.vo.UserVo;
+import com.cafe24.security.Auth;
+import com.cafe24.security.Auth.Role;
+import com.cafe24.security.AuthUser;
+
 
 @Controller
 @RequestMapping("/user")
 public class UserController {
+
+	private static final Log LOG = LogFactory.getLog(UserController.class);
 
 	@Autowired
 	private UserService userService;
@@ -65,18 +73,18 @@ public class UserController {
 		return "redirect:/main";
 	}
 
+	@Auth
 	@RequestMapping(value = "/modify", method = RequestMethod.GET)
-	public String modify(HttpSession session, Model model) {
+	public String modify(@AuthUser UserVo authUser, Model model) {
 
 		/* 접근제어 */
-		UserVo authUser = (UserVo) session.getAttribute("authUser");
-		if (authUser == null) {
-			return "redirect:/main";
-		}
+//		UserVo authUser = (UserVo) session.getAttribute("authUser");
+		System.out.println(authUser);
 		
-		UserVo vo =userService.getNo(authUser.getNo());
-		
-		model.addAttribute("user",vo);
+
+		UserVo vo = userService.getNo(authUser.getNo());
+
+		model.addAttribute("user", vo);
 
 		return "user/modify";
 	}
@@ -84,7 +92,7 @@ public class UserController {
 	@RequestMapping(value = "/modify", method = RequestMethod.POST)
 	public String modify(@ModelAttribute UserVo vo, HttpSession session) {
 
-		/* 접근제어 */  // 이상하게함
+		/* 접근제어 */ // 이상하게함
 		UserVo authUser = (UserVo) session.getAttribute("authUser");
 		if (authUser == null) {
 			return "redirect:/main";

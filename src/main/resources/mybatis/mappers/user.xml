@@ -33,7 +33,7 @@
 		resultType="uservo">
 		
 		<![CDATA[
-		select o , email, gender, name
+		select no , email, gender, name
 		from users  
 		where email = #{email}
 		]]>

@@ -3,10 +3,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <c:set var="ctx" value="${pageContext.servletContext.contextPath}" />
-<%
-// 	String result = (String) request.getAttribute("result");
-// 	String email = (String) request.getAttribute("email");
-%>
 
 <!doctype html>
 <html>
@@ -22,13 +18,13 @@
 		<div id="content">
 			<div id="user">
 				<form id="login-form" name="loginform" method="post"
-					action="${ctx}/user/login">
+					action="${ctx}/user/auth">
 					<label
 						class="block-label" for="email">이메일</label> <input id="email"
 						name="email" type="text"
 						value="${email eq null ? '' : email }"> <label
 						class="block-label">패스워드</label> <input name="password"
-						type="password" value="">
+						type="password" value="" required="required">
 
 					<%-- 					<%if("fail".equals(result)) {%> --%>
 					<c:if test="${'fail' eq  result }">

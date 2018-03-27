@@ -26,7 +26,7 @@
 				</property>
 
 			</bean>
- 			<!--  json 형태로 변환 빈 -->
+			<!-- json 형태로 변환 빈 -->
 			<bean
 				class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
 				<property name="supportedMediaTypes">
@@ -36,11 +36,50 @@
 				</property>
 			</bean>
 
-
-
 		</mvc:message-converters>
+
+		<!-- argument resolver -->
+		<mvc:argument-resolvers>
+			<bean class="com.cafe24.security.AuthUserHandlerMethodArgumentResolver" />
+		</mvc:argument-resolvers>
+
+
+
 	</mvc:annotation-driven>
 
+	<!-- Interceptors -->
+	<!-- <mvc:interceptors> -->
+	<!-- <mvc:interceptor> -->
+	<!-- <mvc:mapping path="/guestbook/**" /> -->
+	<!-- <bean class="com.cafe24.mysite.interceptor.MyInterceptor2" /> -->
+	<!-- </mvc:interceptor> -->
+	<!-- </mvc:interceptors> -->
+
+	<mvc:interceptors>
+		<mvc:interceptor>
+			<mvc:mapping path="/user/auth" />
+			<bean class="com.cafe24.security.AuthLoginInterceptor" />
+		</mvc:interceptor>
+	</mvc:interceptors>
+
+	<mvc:interceptors>
+		<mvc:interceptor>
+			<mvc:mapping path="/user/logout" />
+			<bean class="com.cafe24.security.AuthLogoutInterceptor" />
+		</mvc:interceptor>
+	</mvc:interceptors>
+
+	<mvc:interceptors>
+		<mvc:interceptor>
+			<mvc:mapping path="/**" />
+			<mvc:exclude-mapping path="/user/auth" />
+			<mvc:exclude-mapping path="/user/logout" />
+			<mvc:exclude-mapping path="/assets/**" />
+			<bean class="com.cafe24.security.AuthInterceptor" />
+		</mvc:interceptor>
+
+
+	</mvc:interceptors>
 
 
 
@@ -59,10 +98,12 @@
 
 
 
+
+
+
 	<!-- 빈 설정을 annotation 기반으로 하겠다. -->
 	<context:annotation-config />
 	<!-- scanning 할 기준 패키지 -->
 	<context:component-scan base-package="com.cafe24.mysite.controller" />
-
 
 </beans>

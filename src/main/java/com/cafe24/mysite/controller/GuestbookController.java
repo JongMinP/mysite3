@@ -2,6 +2,8 @@ package com.cafe24.mysite.controller;
 
 import java.util.List;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,6 +19,8 @@ import com.cafe24.mysite.vo.GuestBookVo;
 @RequestMapping("/guestbook")
 public class GuestbookController {
 
+	private static final Log LOG = LogFactory.getLog(GuestbookController.class);
+	
 	@Autowired
 	private GuestbookService service;
 

@@ -6,14 +6,19 @@ import java.io.StringWriter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import com.cafe24.mysite.controller.BoardController;
 import com.cafe24.mysite.dto.JSONResult;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
+	
+	private static final Log LOG = LogFactory.getLog(GlobalExceptionHandler.class);
 
 	@ExceptionHandler(Exception.class)
 	public void handlerException(HttpServletRequest request, HttpServletResponse response, Exception e)
@@ -23,9 +28,9 @@ public class GlobalExceptionHandler {
 		StringWriter errors = new StringWriter();
 		e.printStackTrace(new PrintWriter(errors)); // 예외 내용
 		
-		request.setAttribute("errors", errors);
+//		request.setAttribute("errors", errors);
 		
-		e.printStackTrace();
+		LOG.error(errors);
 		
 		String accept = request.getHeader("accept");
 		

@@ -4,6 +4,7 @@
 <mapper namespace="board">
 
 
+
 	<resultMap type="boardvo" id="bMap">
 		<id column="no" property="no" />
 		<result column="title" property="title" />
@@ -14,8 +15,10 @@
 		<result column="count" property="count" />
 		<result column="file" property="file" />
 		<result column="reg_date" property="regDate" />
+
 		<association column="user_no" property="user" select="user.getByNo"
 			javaType="uservo" jdbcType="NUMERIC" />
+
 		<collection property="comments" column="no" ofType="commentvo"
 			select="comment.getList" javaType="java.util.ArrayList" jdbcType="NUMERIC" />
 	</resultMap>
@@ -68,8 +71,8 @@
 			from board
 		]]>
 	</select>
-	
-	
+
+
 	<insert id="insertBoard" parameterType="boardvo">
 		<![CDATA[
 			insert into board

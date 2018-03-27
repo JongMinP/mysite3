@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,6 +22,8 @@ import com.cafe24.mysite.vo.UserVo;
 @Controller
 @RequestMapping("/board")
 public class BoardController {
+	
+	private static final Log LOG = LogFactory.getLog(BoardController.class);
 
 	@Autowired
 	private BoardService service;
@@ -32,6 +36,11 @@ public class BoardController {
 
 		model.addAttribute("boards", list);
 		model.addAttribute("pager", pager);
+		
+		LOG.debug( "#ex1 - debug log" );
+		LOG.info( "#ex1 - info log" );
+		LOG.warn( "#ex1 - warn log" );
+		LOG.error( "#ex1 - error log" );
 
 		return "board/list";
 	}
