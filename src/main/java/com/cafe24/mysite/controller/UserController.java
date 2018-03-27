@@ -4,6 +4,7 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.tomcat.util.net.jsse.openssl.Authentication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -79,9 +80,7 @@ public class UserController {
 
 		/* 접근제어 */
 //		UserVo authUser = (UserVo) session.getAttribute("authUser");
-		System.out.println(authUser);
 		
-
 		UserVo vo = userService.getNo(authUser.getNo());
 
 		model.addAttribute("user", vo);
@@ -89,16 +88,16 @@ public class UserController {
 		return "user/modify";
 	}
 
+	@Auth(role=Auth.Role.USER)
 	@RequestMapping(value = "/modify", method = RequestMethod.POST)
-	public String modify(@ModelAttribute UserVo vo, HttpSession session) {
+	public String modify(
+			@AuthUser UserVo authUser,
+			@ModelAttribute UserVo userVo ) {
 
-		/* 접근제어 */ // 이상하게함
-		UserVo authUser = (UserVo) session.getAttribute("authUser");
-		if (authUser == null) {
-			return "redirect:/main";
-		}
-		vo.setNo(authUser.getNo());
-		userService.userModify(vo);
+		userVo.setNo(authUser.getNo());
+		userService.userModify(userVo);
+		
+//		authUser.setName(userVo.getName());
 
 		return "redirect:modifysuccess";
 	}

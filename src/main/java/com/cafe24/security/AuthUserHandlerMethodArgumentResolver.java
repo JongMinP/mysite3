@@ -22,7 +22,6 @@ public class AuthUserHandlerMethodArgumentResolver implements HandlerMethodArgum
 			WebDataBinderFactory binderFactory) throws Exception {
 		
 		if(this.supportsParameter(parameter) == false ) {
-			System.out.println("1");
 			return WebArgumentResolver.UNRESOLVED;
 		}
 		
@@ -31,11 +30,9 @@ public class AuthUserHandlerMethodArgumentResolver implements HandlerMethodArgum
 		HttpSession session = request.getSession();
 			
 		if(session == null) {
-			System.out.println("2");
 			return null;
 		}
 		
-		System.out.println("3");
 		return session.getAttribute("authUser");
 	}
 
@@ -47,18 +44,15 @@ public class AuthUserHandlerMethodArgumentResolver implements HandlerMethodArgum
 		
 		//2. @AuthUser 가 안 붙어 있음
 		if(authUser == null) {
-			System.out.println("22");
 			return false;
 		}
 		
 		//3. Type이 UserVo가 아님
 		if(parameter.getParameterType().equals(UserVo.class) == false) {
 			
-			System.out.println("222");
 			return false;
 		}
 		
-		System.out.println("2222");
 		
 		return true;
 	}
