@@ -46,7 +46,7 @@
 		<![CDATA[
 		 insert
 		 into users
-		 values(null,#{name},#{email], password(#{password}),#{gender},now() )
+		 values(null,#{name},#{email}, password(#{password}),#{gender},now() )
 		
 		]]>
 	
