@@ -3,19 +3,22 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+<!-- 태그 라이브러리 추가 -->
+<%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
+<!-- 폼 태그 라이브러리 추가  -->
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
+
+
 <c:set var="ctx" value="${pageContext.servletContext.contextPath}" />
 <!doctype html>
 <html>
 <head>
 <title>mysite</title>
 <meta http-equiv="content-type" content="text/html; charset=utf-8">
-<link
-	href="${ctx}/assets/css/user.css"
-	rel="stylesheet" type="text/css">
+<link href="${ctx}/assets/css/user.css" rel="stylesheet" type="text/css">
 
-<script
-	src="${ctx}/assets/js/jquery/jquery-1.9.0.js"
-	type="text/javascript" ></script>
+<script src="${ctx}/assets/js/jquery/jquery-1.9.0.js"
+	type="text/javascript"></script>
 
 <script type="text/javascript">
 $(function() {
@@ -67,24 +70,64 @@ $(function() {
 		<c:import url="/WEB-INF/views/includes/header.jsp" />
 		<div id="content">
 			<div id="user">
+<!-- 				클래스명에서 앞에 소문자 -->
+				<form:form modelAttribute="userVo" id="join-form" name="joinForm"
+					method="post" action="${ctx}/user/join">
+					<label class="block-label" for="name">이름</label>
+					
+					<form:input path="name"/>
+					 <p style="padding:0; font-weight: bold; text-align: left; color:#f00;">
+						<form:errors path="name"/>
+					</p>
+<!-- 				<input id="name" name="name" type="text" value=""> -->
+					
+					
 
-				<form id="join-form" name="joinForm" method="post"
-					action="${ctx}/user/join">
-					<label class="block-label" for="name">이름</label> <input id="name"
-						name="name" type="text" value=""> <label
-						class="block-label" for="email">이메일</label> <input id="email"
-						name="email" type="text" value=""> 
-						
-						<img id ='img-check' style="display: none;"  src="${ctx}/assets/images/check.png" >
-						
-						<input type="button"value="id 중복체크" id="btn-checkemail"> <label class="block-label">패스워드</label> <input
-						name="password" type="password" value="">
+<%-- 					<spring:hasBindErrors name="userVo"> --%>
+<%-- 						<c:if test="${errors.hasFieldErrors('name') }"> --%>
+<!-- 							<p style="padding: 0; text-align: left; color: #f00;"> -->
+<%-- 								<strong>${errors.getFieldError( 'name' ).defaultMessage }</strong> --%>
+<!-- 							</p> -->
+<!-- 														이거 문제 점은 틀린것이 있으면 맞은것도 사라짐 -->
+
+<%-- 						</c:if> --%>
+<%-- 					</spring:hasBindErrors> --%>
+
+
+					<label class="block-label" for="email">이메일</label>
+<!-- 					<input type="text" id ="email" value=""> -->
+					<form:input path="email"/>
+					<p style="padding:0; font-weight: bold; text-align: left; color:#f00;">
+						<form:errors path="email"/>
+					</p> 
+					
+<!-- 					<input id="email" name="email" type="text" value=""> -->
+					<img id='img-check' style="display: none;"
+						src="${ctx}/assets/images/check.png">
+					<input type="button" value="id 중복체크" id="btn-checkemail">
+					<label class="block-label">패스워드</label>
+					<form:password path="password"/>
+					
+<!-- 				<input name="password" type="password" value=""> -->
+
+					<spring:hasBindErrors name="userVo">
+						<c:if test="${errors.hasFieldErrors('password') }">
+							<p style="padding: 0; text-align: left; color: #f00;">
+								<spring:message
+									code="${errors.getFieldError('password').codes[0] }"
+									text="${errors.getFieldError('password').defaultMessage }" />
+								<%-- 								<strong>${errors.getFieldError( 'password' ).defaultMessage }</strong> --%>
+							</p>
+						</c:if>
+					</spring:hasBindErrors>
+
 
 					<fieldset>
 						<legend>성별</legend>
-						<label>여</label> <input type="radio" name="gender" value="female"
-							checked="checked"> <label>남</label> <input type="radio"
-							name="gender" value="male">
+						<label>여</label> <form:radiobutton path="gender" value="female"/> 
+<!-- 						<input type="radio" name="gender" value="female" checked="checked">  -->
+						<label>남</label> <form:radiobutton path="gender" value="male"/>
+<!-- 						<input type="radio" name="gender" value="male"> -->
 					</fieldset>
 
 					<fieldset>
@@ -95,7 +138,7 @@ $(function() {
 
 					<input type="submit" value="가입하기">
 
-				</form>
+				</form:form>
 			</div>
 		</div>
 

@@ -1,6 +1,10 @@
 @CHARSET "UTF-8";
 @import "mysite.css";
 
+/* input:-webkit-autofill { */
+/*     -webkit-box-shadow: 0 0 0 30px white inset; */
+/* } */
+
 #user		{ margin:20px auto;	width:540px; }
 #join-form	{
 	width:250px;

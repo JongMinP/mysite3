@@ -17,6 +17,7 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
 
+		System.out.println("요기에용 1 ");
 		// 1. handler 종류 확인
 		if (handler instanceof HandlerMethod == false) {
 			// 디폴트 핸들러 인 경우
@@ -25,19 +26,24 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
 		// 2. casting
 		HandlerMethod handlerMethod = (HandlerMethod) handler;
 
+		System.out.println("요기에용  2");
 		// 3. @Auth 받아오기
-		Auth auth = handlerMethod.getMethodAnnotation(Auth.class);
-		// auth.role();
+		Auth auth = handlerMethod.getMethodAnnotation( Auth.class );
+		System.out.println(auth);
+//		auth.role();
 
 		// -- 클래스 타입 어스 받아오기
-		if (auth == null) {
-			auth = handlerMethod.getMethod().getDeclaringClass().getAnnotation(Auth.class);
-		}
+//		if (auth == null) {
+//			auth = handlerMethod.getMethod().getDeclaringClass().getAnnotation(Auth.class);
+//		}
+		
+		System.out.println(auth);
 
 		// 4. Method에 @Auth가 없는 경우
 		if (auth == null) {
 			return true; // 뒤로
 		}
+		System.out.println("요기에용  4");
 
 		// 5. @Auth 가 붙어 있는 경우 , 인증여부 체크
 		HttpSession session = request.getSession();
@@ -53,16 +59,20 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
 			response.sendRedirect(request.getContextPath() + "/user/login");
 			return false;
 		}
+		
+		
 
 		Auth.Role role = auth.role();
 
 		if (role == Auth.Role.USER) { // 인증 되어있기 때문 허가
 			return true;
+		} else {
+			return false;
 		}
 
 		// 6. 접근 허가
 
-		return true;
+		// return true;
 
 	}
 
