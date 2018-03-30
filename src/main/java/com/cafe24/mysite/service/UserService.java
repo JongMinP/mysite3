@@ -2,6 +2,7 @@ package com.cafe24.mysite.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.cafe24.mysite.repository.UserDao;
 import com.cafe24.mysite.vo.UserVo;
@@ -25,6 +26,7 @@ public class UserService {
 		return userDao.get(vo);
 	}
 
+	@Transactional
 	public void userModify(UserVo vo) {
 		userDao.update(vo);
 	}
