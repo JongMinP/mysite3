@@ -27,9 +27,14 @@ public class BoardDao {
 		return sqlSession.selectOne("board.getTotalCountKeyword", kwd);
 	}
 
-	public List<BoardVo> getListPage(Pager pager) {
+	public List<BoardVo> getListPage(com.cafe24.pager.Pager pager, String kwd) {
 
-		return sqlSession.selectList("board.getListPage", pager);
+		HashMap<String, Object> map = new HashMap<>();
+
+		map.put("pager", pager);
+		map.put("kwd", kwd);
+
+		return sqlSession.selectList("board.getListPage", map);
 	}
 
 	public List<BoardVo> getListSearch(String kwd, int startPage, int pageNum) {

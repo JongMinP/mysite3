@@ -21,8 +21,12 @@ public class BoardService {
 	@Autowired
 	private CommentDao cDao;
 
-	public List<BoardVo> getListPage(Pager pager) {
-		List<BoardVo> list = dao.getListPage(pager);
+	public List<BoardVo> getListPage(com.cafe24.pager.Pager pager, String kwd) {
+
+		pager.pagination(pager.getPage(), getTotalCount(kwd));
+		
+		List<BoardVo> list = dao.getListPage(pager, kwd);
+
 		return list;
 	}
 

@@ -18,6 +18,7 @@ import com.cafe24.mysite.service.BoardService;
 import com.cafe24.mysite.vo.BoardVo;
 import com.cafe24.mysite.vo.Pager;
 import com.cafe24.mysite.vo.UserVo;
+import com.cafe24.pager.Page;
 import com.cafe24.security.Auth;
 import com.cafe24.security.AuthUser;
 
@@ -31,18 +32,24 @@ public class BoardController {
 	private BoardService service;
 
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public String list(Model model) {
+	public String list(Model model, 
+			@Page com.cafe24.pager.Pager pager,
+			@RequestParam(value = "kwd", required = true, defaultValue = "") String kwd) {
 
-		Pager pager = service.getPager();
-		List<BoardVo> list = service.getListPage(pager);
-
+//		Pager pager = service.getPager();
+//		List<BoardVo> list = service.getListPage(pager);
+		
+		List<BoardVo>list = service.getListPage(pager, kwd);
+		
 		model.addAttribute("boards", list);
 		model.addAttribute("pager", pager);
 		
-		LOG.debug( "#ex1 - debug log" );
-		LOG.info( "#ex1 - info log" );
-		LOG.warn( "#ex1 - warn log" );
-		LOG.error( "#ex1 - error log" );
+		System.out.println(pager);
+		
+//		LOG.debug( "#ex1 - debug log" );
+//		LOG.info( "#ex1 - info log" );
+//		LOG.warn( "#ex1 - warn log" );
+//		LOG.error( "#ex1 - error log" );
 
 		return "board/list";
 	}

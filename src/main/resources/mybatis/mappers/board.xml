@@ -42,12 +42,16 @@
 
 	</select>
 
-	<select id="getListPage" parameterType="pager" resultMap="bMap">
+	<select id="getListPage" parameterType="hashmap" resultMap="bMap">
 
 		<include refid="readBoard" />
+		<if test='#{kwd} != "" '>
+			and (b.title LIKE CONCAT('%',#{kwd} ,'%') or b.content LIKE
+			CONCAT('%',#{kwd} ,'%'))
+		</if>
 	<![CDATA[
 		order by b.group_no desc , b.order_no asc
-	    LIMIT ${pageStart-1} , #{pageNum} 
+	    LIMIT #{pager.sqlStartPage } , #{pager.pagingSize} 
 	]]>
 	</select>
 
