@@ -39,8 +39,7 @@ public class BoardController {
 
 		model.addAttribute("boards", list);
 		model.addAttribute("pager", pager);
-
-		System.out.println(pager);
+		model.addAttribute("kwd",kwd);
 
 		return "board/list";
 	}

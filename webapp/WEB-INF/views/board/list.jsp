@@ -18,7 +18,8 @@
 		<div id="content">
 			<div id="board">
 				<form id="search_form" action="${ctx}/board/list" method="get">
-					 <input type="text" id="kwd" name="kwd" value=""> 
+					 
+					 <input type="text" id="kwd" name="kwd" value="${kwd}"> 
 					 <input type="submit" value="찾기">
 				</form>
 

@@ -33,14 +33,6 @@
 	]]>
 	</sql>
 
-	<select id="getListSearch" parameterType="hashmap" resultMap="bMap">
-		<include refid="readBoard" />
-		and (b.title LIKE CONCAT('%',#{kwd} ,'%') or b.content LIKE
-		CONCAT('%',#{kwd} ,'%'))
-		order by b.group_no desc , b.order_no asc
-		LIMIT #{pager.pageStart} , #{pager.pageNum}
-
-	</select>
 
 	<select id="getListPage" parameterType="hashmap" resultMap="bMap">
 
