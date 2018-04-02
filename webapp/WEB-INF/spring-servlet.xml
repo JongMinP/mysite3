@@ -41,6 +41,7 @@
 		<!-- argument resolver -->
 		<mvc:argument-resolvers>
 			<bean class="com.cafe24.security.AuthUserHandlerMethodArgumentResolver" />
+			<bean class="com.cafe24.pager.PagerHandlerArgumentResolver"/>
 		</mvc:argument-resolvers>
 
 
@@ -74,7 +75,6 @@
 			<mvc:mapping path="/**" />
 			<mvc:exclude-mapping path="/user/auth" />
 			<mvc:exclude-mapping path="/user/logout" />
-			<mvc:exclude-mapping path="/assets/**" />
 			<mvc:exclude-mapping path="/assets/**" />
 			<bean class="com.cafe24.security.AuthInterceptor" />
 		</mvc:interceptor>

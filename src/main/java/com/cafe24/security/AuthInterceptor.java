@@ -40,7 +40,6 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
 		if (auth == null) {
 			return true; // 뒤로
 		}
-		System.out.println("요기에용  4");
 
 		// 5. @Auth 가 붙어 있는 경우 , 인증여부 체크
 		HttpSession session = request.getSession();
