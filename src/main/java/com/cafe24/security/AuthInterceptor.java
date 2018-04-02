@@ -17,7 +17,6 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
 
-		System.out.println("요기에용 1 ");
 		// 1. handler 종류 확인
 		if (handler instanceof HandlerMethod == false) {
 			// 디폴트 핸들러 인 경우
@@ -26,10 +25,8 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
 		// 2. casting
 		HandlerMethod handlerMethod = (HandlerMethod) handler;
 
-		System.out.println("요기에용  2");
 		// 3. @Auth 받아오기
 		Auth auth = handlerMethod.getMethodAnnotation( Auth.class );
-		System.out.println(auth);
 //		auth.role();
 
 		// -- 클래스 타입 어스 받아오기

@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.cafe24.mysite.vo.BoardVo;
-import com.cafe24.mysite.vo.Pager;
+import com.cafe24.pager.Pager;
 
 @Repository
 public class BoardDao {
@@ -17,17 +17,12 @@ public class BoardDao {
 	@Autowired
 	private SqlSession sqlSession;
 
-	public int getTotalCount() {
-
-		return sqlSession.selectOne("board.getTotalCountKeyword");
-	}
-
 	public int getTotalCount(String kwd) {
 
 		return sqlSession.selectOne("board.getTotalCountKeyword", kwd);
 	}
 
-	public List<BoardVo> getListPage(com.cafe24.pager.Pager pager, String kwd) {
+	public List<BoardVo> getListPage(Pager pager, String kwd) {
 
 		HashMap<String, Object> map = new HashMap<>();
 
@@ -35,20 +30,6 @@ public class BoardDao {
 		map.put("kwd", kwd);
 
 		return sqlSession.selectList("board.getListPage", map);
-	}
-
-	public List<BoardVo> getListSearch(String kwd, int startPage, int pageNum) {
-
-		HashMap<String, Object> map = new HashMap<>();
-
-		Pager pager = new Pager();
-		pager.setPageStart(startPage);
-		pager.setPageNum(pageNum);
-
-		map.put("kwd", kwd);
-		map.put("pager", pager);
-
-		return sqlSession.selectList("board.getListSearch", map);
 	}
 
 	public int groupNoSearch() {

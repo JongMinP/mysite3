@@ -3,11 +3,17 @@ package com.cafe24.pager;
 public class Pager {
 
 	/**
-	 * page : 현재 페이지 번호 totalCount : 전체 게시물의 수 prev : 네비게이션(왼쪽 화살표)의 유무 next :
-	 * 네비게이션(오른쪽 화살표)의 유무 pageStart : 페이지의 시작 pageEnd : 페이지의 마지막 blockPage : 현재 블락
-	 * 번호 pageCount : 전체 개수에서 페이징 수만큼 나눈 페이지의 개수 blockCount : 페이지의 개수에서 페이지 수만큼 나눈
-	 * 블락의 개수 pagingSize : 한 번에 보여지는 게시물의 숫자 (sql에서 limit 두 번째 숫자 부분) pageSize : 몇
-	 * 개씩 페이지 되어 있는 번호 sqlStartPage : sql에서 limit 시작 하는 번호
+	 * page : 현재 페이지 번호 
+	 * totalCount : 전체 게시물의 수 
+	 * prev : 네비게이션(왼쪽 화살표)의 유무 
+	 * next :네비게이션(오른쪽 화살표)의 유무
+	 * pageStart : 페이지의 시작 pageEnd : 페이지의 마지막 
+	 * blockPage : 현재 블락번호 
+	 * pageCount : 전체 개수에서 페이징 수만큼 나눈 페이지의 개수 
+	 * blockCount : 페이지의 개수에서 페이지 수만큼 나눈 블락의 개수 
+	 * pagingSize : 한 번에 보여지는 게시물의 숫자 (sql에서 limit 두 번째 숫자 부분) 
+	 * pageSize : 몇 개씩 페이지 되어 있는 번호 
+	 * sqlStartPage : sql에서 limit 시작 하는 번호
 	 */
 
 	private int page;

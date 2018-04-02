@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import com.cafe24.mysite.repository.BoardDao;
 import com.cafe24.mysite.repository.CommentDao;
 import com.cafe24.mysite.vo.BoardVo;
-import com.cafe24.mysite.vo.Pager;
+import com.cafe24.pager.Pager;
 
 @Service
 public class BoardService {
@@ -16,54 +16,16 @@ public class BoardService {
 	@Autowired
 	private BoardDao dao;
 
-	private static final int PAGE_COUNT = 10;
-
 	@Autowired
 	private CommentDao cDao;
 
-	public List<BoardVo> getListPage(com.cafe24.pager.Pager pager, String kwd) {
+	public List<BoardVo> getListPage(Pager pager, String kwd) {
 
 		pager.pagination(pager.getPage(), getTotalCount(kwd));
-		
+
 		List<BoardVo> list = dao.getListPage(pager, kwd);
 
 		return list;
-	}
-
-	public Pager getPager() {
-		Pager pager = new Pager();
-		int totalCount = dao.getTotalCount();
-		pager.setTotalCount(totalCount);
-		pager.setIndexCount(totalCount);
-
-		return pager;
-	}
-
-	public List<BoardVo> searchList(String kwd) {
-
-		Pager pager = new Pager();
-		List<BoardVo> list = dao.getListSearch(kwd, pager.getPageStart() - 1, PAGE_COUNT);
-
-		return list;
-	}
-
-	public List<BoardVo> pagerList(String kwd, Pager pager) {
-
-		List<BoardVo> list = dao.getListSearch(kwd, pager.getPageStart(), PAGE_COUNT);
-
-		return list;
-	}
-
-	public List<BoardVo> arrowList(String kwd, Pager pager) {
-
-		List<BoardVo> list = dao.getListSearch(kwd, (pager.getPageStart() - 1) * PAGE_COUNT, PAGE_COUNT);
-
-		return list;
-	}
-
-	public int getTotalCount() {
-
-		return dao.getTotalCount();
 	}
 
 	public int getTotalCount(String kwd) {
