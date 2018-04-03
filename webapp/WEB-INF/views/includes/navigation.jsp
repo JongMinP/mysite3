@@ -11,21 +11,32 @@
 			<c:when test="${param.menu == 'main' }">
 				<li class="selected"><a href="${ctx}/main">박종민</a></li>
 				<li><a href="${ctx}/guestbook/list">방명록</a></li>
+				<li><a href="${ctx}/guestbook/ajax">방명록(ajax)</a></li>
 				<li><a href="${ctx}/board/list">게시판</a></li>
 			</c:when>
 			<c:when test="${param.menu == 'guestbook' }">
 				<li><a href="${ctx}/main">박종민</a></li>
 				<li class="selected"><a href="${ctx}/guestbook/list">방명록</a></li>
+				<li><a href="${ctx}/guestbook/ajax">방명록(ajax)</a></li>
 				<li><a href="${ctx}/board/list">게시판</a></li>
 			</c:when>
+			<c:when test="${param.menu == 'guestbook-ajax' }">
+				<li><a href="${ctx}/main">박종민</a></li>
+				<li><a href="${ctx}/guestbook/list">방명록</a></li>
+				<li class="selected"><a href="${ctx}/guestbook/ajax">방명록(ajax)</a></li>
+				<li><a href="${ctx}/board/list">게시판</a></li>
+			</c:when>
+			
 			<c:when test="${param.menu == 'board' }">
 				<li><a href="${ctx}/main">박종민</a></li>
 				<li><a href="${ctx}/guestbook/list">방명록</a></li>
+				<li><a href="${ctx}/guestbook/ajax">방명록(ajax)</a></li>
 				<li class="selected"><a href="${ctx}/board/list">게시판</a></li>
 			</c:when>
 			<c:otherwise>
 				<li><a href="${ctx}/main">박종민</a></li>
 				<li><a href="${ctx}/guestbook/list">방명록</a></li>
+				<li><a href="${ctx}/guestbook/ajax">방명록(ajax)</a></li>
 				<li><a href="${ctx}/board/list">게시판</a></li>
 			</c:otherwise>
 

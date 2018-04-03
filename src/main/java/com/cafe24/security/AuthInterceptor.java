@@ -1,11 +1,9 @@
 package com.cafe24.security;
 
-import javax.annotation.Resource.AuthenticationType;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.apache.tomcat.util.net.jsse.openssl.Authentication;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
@@ -57,7 +55,6 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
 		}
 		
 		
-
 		Auth.Role role = auth.role();
 
 		if (role == Auth.Role.USER) { // 인증 되어있기 때문 허가
