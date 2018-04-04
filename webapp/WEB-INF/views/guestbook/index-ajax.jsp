@@ -11,82 +11,17 @@
 	href="${pageContext.request.contextPath }/assets/css/guestbook.css"
 	rel="stylesheet" type="text/css">
 <link rel="stylesheet"
+	href="${pageContext.request.contextPath }/assets/css/guestbook-ajax.css"
+	rel="stylesheet" type="text/css">
+<link rel="stylesheet"
 	href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <script type="text/javascript"
 	src="${pageContext.request.contextPath }/assets/js/jquery/jquery-1.9.0.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
 
-<style type="text/css">
-#guestbook h1 {
-	background: url('/mysite3/assets/images/guestbook.png') left 0px
-		no-repeat;
-	background-size: 40px;
-	padding: 0 0 7px 40px;
-}
 
-form input, form textarea {
-	width: 100%;
-	margin: 5px;
-	padding: 3px;
-	border: 2px groove;
-	color: gray;
-}
 
-form textarea {
-	height: 100px;
-	resize: none;
-}
-
-form input[type="submit"] {
-	width: 102%;
-	background-color: white;
-}
-
-hr {
-	border: 1px groove;
-	width: 101.5%;
-	margin: 15px 5px 5px 5px;
-	color: gray;
-}
-
-#list-guestbook li {
-	/* 	border: 1px solid; */
-	background: url('/mysite3/assets/images/user.png') left 18px no-repeat;
-	margin: 0 0 0 5px;
-	padding: 0 0 0 50px;
-}
-
-#list-guestbook li p {
-	border: 1px groove;
-	border-radius: 5px;
-	height: 40px;
-	width: 90%;
-	padding: 8px;
-	margin: 5px 0 0 0;
-	background-color: #FAFAFA;
-	padding: 8px;
-}
-
-#guestbook ul li strong, #guestbook ul li a {
-	display: block;
-}
-
-#guestbook ul li {
-	position: relative;
-}
-
-#list-guestbook li a {
-	background: url('/mysite3/assets/images/delete.png') 0 0 no-repeat;
-	width: 20px;
-	height: 20px;
-	font-size: 0px;
-	position: absolute;
-	left: 20px;
-	top: 40px;
-}
-
-</style>
 </head>
 <body>
 	<div id="container">
