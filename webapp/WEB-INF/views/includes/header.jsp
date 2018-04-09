@@ -5,6 +5,9 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <c:set var="ctx" value="${pageContext.servletContext.contextPath}" />
+<script src="${ctx}/assets/js/jquery/jquery-1.9.0.js"
+	type="text/javascript"></script>
+
 <div id="header">
 	<h1>
 		<a href="${ctx}/main">MySite</a>

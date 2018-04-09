@@ -4,56 +4,43 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <c:set var="ctx" value="${pageContext.servletContext.contextPath}" />
+<script src="${ctx}/assets/js/jquery/jquery-1.9.0.js"
+	type="text/javascript"></script>
+
+
+<script type="text/javascript">
+
+	$(function() {
+
+		var menu = $("#menu");
+
+		if (menu.val() == 'main') {
+			$("li:nth-child(1)").addClass("selected");
+
+		} else if (menu.val() == 'guestbook') {
+			$("li:nth-child(2)").addClass("selected");
+
+		} else if (menu.val() == 'guestbook-ajax') {
+			$("li:nth-child(3)").addClass("selected");
+
+		} else if (menu.val() == 'board') {
+			$("li:nth-child(4)").addClass("selected");
+
+		} else if (menu.val() == 'gallery') {
+			$("li:nth-child(5)").addClass("selected");
+		}
+
+
+	});
+</script>
+<input type="hidden" id="menu" value="${param.menu}" />
 <div id="navigation">
 	<ul>
+		<li><a href="${ctx}/main">박종민</a></li>
+		<li><a href="${ctx}/guestbook/list">방명록</a></li>
+		<li><a href="${ctx}/guestbook/ajax">방명록(ajax)</a></li>
+		<li><a href="${ctx}/board/list">게시판</a></li>
+		<li><a href="${ctx}/gallery">갤러리</a></li>
 
-		<c:choose>
-			<c:when test="${param.menu == 'main' }">
-				<li class="selected"><a href="${ctx}/main">박종민</a></li>
-				<li><a href="${ctx}/guestbook/list">방명록</a></li>
-				<li><a href="${ctx}/guestbook/ajax">방명록(ajax)</a></li>
-				<li><a href="${ctx}/board/list">게시판</a></li>
-				<li><a href="${ctx}/gallery">갤러리</a></li>
-			</c:when>
-			<c:when test="${param.menu == 'guestbook' }">
-				<li><a href="${ctx}/main">박종민</a></li>
-				<li class="selected"><a href="${ctx}/guestbook/list">방명록</a></li>
-				<li><a href="${ctx}/guestbook/ajax">방명록(ajax)</a></li>
-				<li><a href="${ctx}/board/list">게시판</a></li>
-				<li><a href="${ctx}/gallery">갤러리</a></li>
-			</c:when>
-			<c:when test="${param.menu == 'guestbook-ajax' }">
-				<li><a href="${ctx}/main">박종민</a></li>
-				<li><a href="${ctx}/guestbook/list">방명록</a></li>
-				<li class="selected"><a href="${ctx}/guestbook/ajax">방명록(ajax)</a></li>
-				<li><a href="${ctx}/board/list">게시판</a></li>
-				<li><a href="${ctx}/gallery">갤러리</a></li>
-			</c:when>
-			
-			<c:when test="${param.menu == 'board' }">
-				<li><a href="${ctx}/main">박종민</a></li>
-				<li><a href="${ctx}/guestbook/list">방명록</a></li>
-				<li><a href="${ctx}/guestbook/ajax">방명록(ajax)</a></li>
-				<li class="selected"><a href="${ctx}/board/list">게시판</a></li>
-				<li><a href="${ctx}/gallery">갤러리</a></li>
-			</c:when>
-			
-			<c:when test="${param.menu == 'gallery' }">
-				<li><a href="${ctx}/main">박종민</a></li>
-				<li><a href="${ctx}/guestbook/list">방명록</a></li>
-				<li><a href="${ctx}/guestbook/ajax">방명록(ajax)</a></li>
-				<li><a href="${ctx}/board/list">게시판</a></li>
-				<li class="selected"><a href="${ctx}/gallery">갤러리</a></li>
-			</c:when>
-			
-			<c:otherwise>
-				<li><a href="${ctx}/main">박종민</a></li>
-				<li><a href="${ctx}/guestbook/list">방명록</a></li>
-				<li><a href="${ctx}/guestbook/ajax">방명록(ajax)</a></li>
-				<li><a href="${ctx}/board/list">게시판</a></li>
-				<li><a href="${ctx}/gallery">갤러리</a></li>
-			</c:otherwise>
-
-		</c:choose>
 	</ul>
 </div>

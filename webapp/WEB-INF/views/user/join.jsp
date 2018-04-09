@@ -61,38 +61,45 @@
 
 		});
 
+		
+		
+		
 		$("#email").change(function() {
 			$("#img-check").hide();
 			$("#btn-checkemail").show();
 		});
 
 
-		var name = document.getElementById("name");
-		var email = document.getElementById("email");
-		var password = document.getElementById("password");
-		var agree = document.getElementById("agree-prov");
+		var name = $("#name");
+		var email = $("#email");
+		var password = $("#password");
+		var agree = $("input:checkbox[id=agree-prov]").is(":checked");
+// 		var agree = document.getElementById("agree-prov");
 		var gender = document.getElementsByName("gender");
 
-		var form = document.getElementById("join-form");
-		form.onsubmit = function() {
-			if (!/^[가-힝]{2,}$/.test(name.value)) {
+		$("#join-form").submit(function() {
+			if (!/^[가-힝]{2,}$/.test(name.val())) {
 				alert("한글로 2글자 이상을 넣으세요~");
 				name.focus();
 				return false;
 			}
 
-			if (!/^[\w]{4,}@[\w]+(\.[\w-]+){1,3}$/.test(email.value)) {
+			if (!/^[\w]{4,}@[\w]+(\.[\w-]+){1,3}$/.test(email.val())) {
 				alert("이메일 형식에 어긋납니다.");
 				email.focus();
 				return false;
 			}
 
-			if (!/^[a-z][a-z\d]{3,11}$/.test(password.value)) {
+			if (!/^[a-z][a-z\d]{3,11}$/.test(password.val())) {
 				alert("비밀번호는 영문 소문자 4자 ~ 12자로 이루어져야 한다.");
 				password.focus();
 				return false;
 			}
 
+			if(agree){
+				alert("약관 동의를 해 주세요");
+				return false;
+			}
 			
 			if(!gender[0].checked && !gender[1].checked){
 				alert("성별 체크 해주세요");
@@ -100,13 +107,10 @@
 			}
 			
 			
-			if(!agree.checked){
-				alert("약관 동의를 해 주세요");
-				return false;
-			}
+		
 
 			return true;
-		};
+		});
 
 	});
 </script>
