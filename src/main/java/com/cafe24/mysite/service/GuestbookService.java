@@ -19,6 +19,12 @@ public class GuestbookService {
 
 		return list;
 	}
+	
+	public List<GuestBookVo> guestbookList(Long no) {
+		List<GuestBookVo> list = dao.getList(no);
+		
+		return list;
+	}
 
 	public GuestBookVo getGusetBookByNo(Long no) {
 		GuestBookVo vo = dao.getGusetBook(no);
@@ -29,9 +35,28 @@ public class GuestbookService {
 	public void deleteGuestBook(Long no) {
 		dao.delete(no);
 	}
+	
+	public boolean deleteMessage(GuestBookVo vo) {
+		
+		return dao.delete(vo) == 1;
+	}
+	
 
 	public void insertGuestBook(GuestBookVo vo) {
 		dao.insert(vo);
+	}
+
+	public GuestBookVo insertGuestBook2(GuestBookVo guestbookVo) {
+		GuestBookVo vo = null;
+		
+		System.out.println(guestbookVo);
+		int count = dao.insert(guestbookVo);
+		
+		if( count == 1) {
+			vo = dao.get(guestbookVo.getNo());
+		}
+		
+		return vo;
 	}
 
 }

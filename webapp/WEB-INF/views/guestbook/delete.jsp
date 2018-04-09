@@ -10,6 +10,8 @@
 <c:set var="ctx" value="${pageContext.servletContext.contextPath}" />
 <link href="${ctx}/assets/css/guestbook.css" rel="stylesheet"
 	type="text/css">
+<script type="text/javascript"
+	src="${pageContext.request.contextPath }/assets/js/jquery/jquery-1.9.0.js"></script>
 </head>
 <body>
 	<div id="container">
