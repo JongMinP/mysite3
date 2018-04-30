@@ -16,13 +16,36 @@
 <script type="text/javascript"
 	src="${pageContext.request.contextPath }/assets/js/jquery/jquery-1.9.0.js"></script>
 
+<script type="text/javascript"
+	src="${pageContext.request.contextPath }/assets/js/ejs/ejs.js"></script>
+
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
 
 
 
 <script>
+// jQuery plugin
+
+(function($){ // 여기 달러를 a로 바꾸면  달러를 다 a로 바꿔야 됨
+	$.fn.hello = function(){
+		var $element = $(this);
+		console.log($element.attr("id") + ":hello~" );		
+		
+	};
+	
+})(jQuery);
+
+
+
 	var isEnd = false;
+	var ejsListItem = new EJS({
+		// 경로
+		url: "${pageContext.request.contextPath }/assets/js/ejs/template/listitem.ejs"
+	});
+	
+	
+	
 	var messageBox = function(title, message, callback) {
 
 		$("#dialog-message").attr("title", title);
@@ -44,11 +67,15 @@
 
 	var render = function(mode, vo) {
 
-		var html = "<li data-no='" + vo.no + "'>" + "<strong>" + vo.name
+		// 이걸 템플릿으로 빼자!!
+		var html = ejsListItem.render(vo);
+			   /* "<li data-no='" + vo.no + "'>" + "<strong>" + vo.name
 				+ "</strong>" + "<p>" + vo.content.replace(/\n/gi, "<br>")
 				+ "</p>" + "<strong></strong>"
-				+ "<a href='#' data-no='" + vo.no +"'>삭제</a>" + "</li>";
+				+ "<a href='#' data-no='" + vo.no +"'>삭제</a>" + "</li>";*/
 
+				
+				
 		if (mode == true) {
 			$("#list-guestbook").prepend(html);
 
@@ -61,6 +88,58 @@
 
 	}
 
+	var fetchList = function(){
+		
+		if (isEnd == true) {
+			return;
+		}
+		// 빈거 일수는 있어도 null은 불가
+		// .data에서 null이 될 수는 있다.
+		// || 연산자 사용 null이 될경우 false가 되어 뒤에 있는 값을 넣어 준다.
+		// 자바스크립트에서만 먹는다.
+		var startNo = $("#list-guestbook li").last().data("no") || 0;
+		// 맨처음은 없기 때문에 0 이 들어가서 맨 처음 값을 불러온다.
+		// 두 번째에는 가장 마지막 자식의 data-no(vo.no)를 불러 와서 그 no보다 작은 애들을 리턴 
+		$.ajax({
+			url : "/mysite3/api/guestbook/list?no=" + startNo,
+			type : "get",
+			dataType : "json",
+			success : function(response) {
+				// 				console.log(response);
+				// 성공 유무 
+				if (response.result != "success") {
+					console.log(response.message);
+					return;
+				}
+
+				//끝 감지
+				if (response.data.length < 5) {
+					isEnd = true;
+					$("#btn-fetch").prop("disabled", true);
+				}
+
+				// render
+				// 정규 표현식  \n 전부 
+				$.each(response.data, function(index, vo) {
+					render(false, vo);
+
+				});
+
+				
+				// 위에서랑 같은 처리
+				// 5개씩이니 4번째가 마지막
+				var length = response.data.length;
+				if (length > 0) {
+					startNo = response.data[length - 1];
+				}
+				
+				
+			}
+
+		});
+		
+	}
+	
 	$(function() {
 
 		// 삭제 시 비밀번호 입력 다이알 로그
@@ -193,55 +272,30 @@
 
 		
 		$("#btn-fetch").click(function() {
-
-			if (isEnd == true) {
-				return;
-			}
-			// 빈거 일수는 있어도 null은 불가
-			// .data에서 null이 될 수는 있다.
-			// || 연산자 사용 null이 될경우 false가 되어 뒤에 있는 값을 넣어 준다.
-			// 자바스크립트에서만 먹는다.
-			var startNo = $("#list-guestbook li").last().data("no") || 0;
-			// 맨처음은 없기 때문에 0 이 들어가서 맨 처음 값을 불러온다.
-			// 두 번째에는 가장 마지막 자식의 data-no(vo.no)를 불러 와서 그 no보다 작은 애들을 리턴 
-			$.ajax({
-				url : "/mysite3/api/guestbook/list?no=" + startNo,
-				type : "get",
-				dataType : "json",
-				success : function(response) {
-					// 				console.log(response);
-					// 성공 유무 
-					if (response.result != "success") {
-						console.log(response.message);
-						return;
-					}
-
-					//끝 감지
-					if (response.data.length < 5) {
-						isEnd = true;
-						$("#btn-fetch").prop("disabled", true);
-					}
-
-					// render
-					// 정규 표현식  \n 전부 
-					$.each(response.data, function(index, vo) {
-						render(false, vo);
-
-					});
-
-					
-					// 위에서랑 같은 처리
-					// 5개씩이니 4번째가 마지막
-					var length = response.data.length;
-					if (length > 0) {
-						startNo = response.data[length - 1];
-					}
-					
-					
-				}
-
-			});
+			fetchList();
 		});
+		
+		// scroll bar  구현 스크롤 바의 위치에따라 계속해서 데이터를 가져옴
+		$(window).scroll(function(){
+			var $window = $(this);
+			var scrollTop = $window.scrollTop();
+			var windowHeight = $window.height();
+			var documentHeight = $(document).height();
+			
+			// console.log(scrollTop + ":" + windowHeight + ":" + documentHeight);
+			// scrollbar의 thumb가 바닥 전 30px까지 도달
+			if(scrollTop + windowHeight + 30 > documentHeight){
+				fetchList();	
+			}
+		});
+		
+		
+		fetchList(); // 최초 리스트 가져오기
+		
+		// plugin 테스트 
+		$("#container").hello();
+		
+		
 	});
 </script>
 

@@ -57,6 +57,7 @@
 					action="${ctx}/comment/insert">
 					<input type="hidden" name="a" value="comment"> <input
 						type="hidden" name="boardNo" value="${board.no }" />
+					
 					<table class="tbl-ex">
 						<tr>
 							<th colspan="4">댓글</th>

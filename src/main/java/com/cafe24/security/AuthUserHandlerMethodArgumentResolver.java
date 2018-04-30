@@ -25,6 +25,8 @@ public class AuthUserHandlerMethodArgumentResolver implements HandlerMethodArgum
 			return WebArgumentResolver.UNRESOLVED;
 		}
 		
+		
+		System.out.println("들어오니1");
 		// @AuthUser가 붙어 있고 파라미터 타입이 UserVo
 		HttpServletRequest request = webRequest.getNativeRequest(HttpServletRequest.class);
 		HttpSession session = request.getSession();
@@ -32,7 +34,8 @@ public class AuthUserHandlerMethodArgumentResolver implements HandlerMethodArgum
 		if(session == null) {
 			return null;
 		}
-		
+		System.out.println("들어오니2");
+
 		return session.getAttribute("authUser");
 	}
 
@@ -41,6 +44,8 @@ public class AuthUserHandlerMethodArgumentResolver implements HandlerMethodArgum
 		
 		//1. @AuthUser 가 붙어 있는지 확인
 		AuthUser authUser =  parameter.getParameterAnnotation(AuthUser.class);
+		System.out.println("들어오니0");
+
 		
 		//2. @AuthUser 가 안 붙어 있음
 		if(authUser == null) {

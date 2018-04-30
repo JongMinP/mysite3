@@ -7,6 +7,7 @@
 	<typeAlias alias="boardvo" type="com.cafe24.mysite.vo.BoardVo"/>
 	<typeAlias alias="commentvo" type="com.cafe24.mysite.vo.CommentVo"/>
 	<typeAlias alias="pager" type="com.cafe24.mysite.vo.Pager"/>
+	<typeAlias alias="galleryvo" type="com.cafe24.mysite.vo.GalleryVo" />
 	
 	</typeAliases>
 	<mappers>
@@ -14,5 +15,6 @@
 		<mapper resource="mybatis/mappers/board.xml" />
 		<mapper resource="mybatis/mappers/comment.xml" />
 		<mapper resource="mybatis/mappers/guestbook.xml" />
+		<mapper resource="mybatis/mappers/gallery.xml"/>
 	</mappers>
 </configuration>

@@ -95,6 +95,7 @@ public class UserController {
 
 		UserVo vo = userService.getNo(authUser.getNo());
 
+		LOG.warn(vo);
 		model.addAttribute("user", vo);
 
 		return "user/modify";
@@ -109,7 +110,7 @@ public class UserController {
 
 		// authUser.setName(userVo.getName());
 
-		return "redirect:modifysuccess";
+		return "redirect:/modifysuccess";
 	}
 
 	@RequestMapping(value = "/modifysuccess")

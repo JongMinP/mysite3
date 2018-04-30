@@ -22,6 +22,8 @@ public class BoardService {
 	public List<BoardVo> getListPage(Pager pager, String kwd) {
 
 		pager.pagination(pager.getPage(), getTotalCount(kwd));
+		
+		System.out.println("service: " + pager);
 
 		List<BoardVo> list = dao.getListPage(pager, kwd);
 

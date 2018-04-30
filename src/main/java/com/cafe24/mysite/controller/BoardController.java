@@ -33,9 +33,15 @@ public class BoardController {
 
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public String list(Model model, @Page Pager pager,
+			@RequestParam(value = "page" , required = true, defaultValue = "1") int page,
 			@RequestParam(value = "kwd", required = true, defaultValue = "") String kwd) {
 
+		pager.setPage(page);
 		List<BoardVo> list = service.getListPage(pager, kwd);
+		
+		for(BoardVo vo : list) {
+			System.out.println(vo);
+		}
 
 		model.addAttribute("boards", list);
 		model.addAttribute("pager", pager);

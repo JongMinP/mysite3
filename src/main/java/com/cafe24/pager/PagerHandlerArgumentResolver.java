@@ -17,6 +17,7 @@ public class PagerHandlerArgumentResolver implements HandlerMethodArgumentResolv
 			return WebArgumentResolver.UNRESOLVED;
 		}
 		
+		System.out.println("이건되니?");
 		Pager pager = new Pager();
 		
 		return pager;
