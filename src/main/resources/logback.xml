@@ -11,7 +11,8 @@
 	</appender>
 
 	<appender name="fileAppender2" class="ch.qos.logback.core.rolling.RollingFileAppender">
-		<file>c:\LogExample\logexample2.log</file>
+<!-- 		<file>c:\LogExample\logexample2.log</file> -->
+		<file>/usr/local/cafe24/log/logfile.log</file>
 		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
 			<Pattern>
 				%d{HH:mm:ss.SSS} [%thread] %-5level %logger{5} - %msg%n
@@ -19,7 +20,7 @@
 		</encoder>
 		<!--  50KB 용량 되면 집파일로 -->
 		<rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
-			<FileNamePattern>C:\LogExample\logexample2.%i.log.zip</FileNamePattern>
+			<FileNamePattern>/usr/local/cafe24/log/logfile.%i.log.zip</FileNamePattern>
 			<MinIndex>1</MinIndex>
 			<MaxIndex>10</MaxIndex>
 		</rollingPolicy>
@@ -30,14 +31,16 @@
 	</appender>
 	
 	<appender name="fileAppender3" class="ch.qos.logback.core.rolling.RollingFileAppender">
-		<file>c:\LogExample\logexample3.log</file>
+<!-- 		<file>c:\LogExample\logexample3.log</file> -->
+		<file>/usr/local/cafe24/log/logfile.log</file>
 		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
 			<Pattern>
 				%d{HH:mm:ss.SSS} [%thread] %-5level %logger{5} - %msg%n
 			</Pattern>
 		</encoder>
 		<rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
-			<FileNamePattern>C:\LogExample\logexample3.%i.log.zip</FileNamePattern>
+<!-- 			<FileNamePattern>C:\LogExample\logexample3.%i.log.zip</FileNamePattern> -->
+			<FileNamePattern>/usr/local/cafe24/log/logfile.%i.log.zip</FileNamePattern>
 			<MinIndex>1</MinIndex>
 			<MaxIndex>10</MaxIndex>  
 		</rollingPolicy>
