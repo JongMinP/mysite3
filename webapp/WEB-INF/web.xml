@@ -14,7 +14,9 @@
   <!-- Context Parameter(전역파라미터) -->
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
-		<param-value>/WEB-INF/applicationContext.xml</param-value>
+		<!--  applicationContext를 모드에 따라 다르게 쓰기 위해 -->
+		<param-value>classpath:applicationContext.xml </param-value>
+<!-- 		<param-value>/WEB-INF/applicationContext.xml</param-value> -->
 	</context-param>
 
 	<!-- Context Loader Listener -->

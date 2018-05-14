@@ -171,6 +171,14 @@
 							<exclude>**/*.java</exclude>
 						</excludes>
 					</resource>
+					
+					<resource>
+						<!-- java 파일 빼고 클래스 밑에다가 갖다놓음 -->
+						<directory>${project.basedir}/src/production/resources</directory>
+						<excludes>
+							<exclude>**/*.java</exclude>
+						</excludes>
+					</resource>
 				</resources>
 				<plugins>
 					<plugin>

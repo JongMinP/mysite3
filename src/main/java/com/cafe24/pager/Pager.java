@@ -154,6 +154,9 @@ public class Pager {
 
 		// 페이지 최대 페이지 넘는 경우 최대로 초기화
 		this.page = (page > pageCount) ? pageCount : page;
+		
+		// 페이지가 0일 경우 1로 초기화
+		this.page = (this.page ==0 ) ? 1 : this.page;
 
 		int temp = (int) Math.ceil((double) this.page / pageSize);
 		blockPage = temp > 0 ? temp : 1;
