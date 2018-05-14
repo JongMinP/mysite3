@@ -37,8 +37,8 @@
 	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
 		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
 		<property name="url" value="jdbc:mysql://192.168.1.58:3306/webdb" />
-		<property name="username" value="root" />
-		<property name="password" value="manager" />
+		<property name="username" value="webdb" />
+		<property name="password" value="webdb" />
 	</bean>
 
 
